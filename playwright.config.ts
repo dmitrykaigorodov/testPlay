@@ -1,5 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// export defineConfig ({
+//   reporter:[['html',{open:'never'}]]
+// }) ;
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
