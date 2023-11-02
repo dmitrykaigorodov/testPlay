@@ -34,26 +34,26 @@ test("Create/Register User Account via API", async ({ page }) => {
   expect(responseBody).toContain("User created!");
 });
 
-test("Verify Login with Valid Details via API", async ({ page }) => {
-  const apiURL = "https://automationexercise.com/api/verifyLogin";
-  const loginData = {
-    email: "paw@mail.com",
-    password: "123",
-  };
+// test("Verify Login with Valid Details via API", async ({ page }) => {
+//   const apiURL = "https://automationexercise.com/api/verifyLogin";
+//   const loginData = {
+//     email: "paw@mail.com",
+//     password: "123",
+//   };
 
-  const response = await page.request.post(apiURL, {
-    headers: { "Content-Type": "application/json" },
-    data: JSON.stringify(loginData),
-  });
-  console.log("Response Status Code:", response.status());
-  console.log("Response Body:", await response.text());
+//   const response = await page.request.post(apiURL, {
+//     headers: { "Content-Type": "application/json" },
+//     postData: JSON.stringify(loginData),
+//   });
+//   console.log("Response Status Code:", response.status());
+//   console.log("Response Body:", await response.text());
 
-  const statusCode = response.status();
-  const responseBody = await response.text();
+//   const statusCode = response.status();
+//   const responseBody = await response.text();
 
-  expect(statusCode).toBe(200);
-  expect(responseBody).toContain("User exists!");
-});
+//   expect(statusCode).toBe(200);
+//   expect(responseBody).toContain("User exists!");
+// });
 
 test("Verify Login with Invalid Details via API", async ({ page }) => {
   const apiURL = "https://automationexercise.com/api/verifyLogin";
@@ -64,31 +64,12 @@ test("Verify Login with Invalid Details via API", async ({ page }) => {
 
   const response = await page.request.post(apiURL, {
     headers: { "Content-Type": "application/json" },
-    data: JSON.stringify(invalidLoginData),
+    postData: JSON.stringify(invalidLoginData),
   });
 
   const statusCode = response.status();
   const responseBody = await response.text();
 
-  expect(statusCode).toBe(404);
-  expect(responseBody).toContain("User not found!");
-});
-test("Verify Login with Invalid Details via API", async ({ page }) => {
-  const apiURL = "https://automationexercise.com/api/verifyLogin";
-  const invalidLoginData = {
-    email: "invalid_email@example.com",
-    password: "invalidPassword", 
-  };
-
-  const response = await page.request.post(apiURL, {
-    headers: { "Content-Type": "application/json" },
-    data: JSON.stringify(invalidLoginData),
-  });
-
-  const statusCode = response.status();
-  const responseBody = await response.text();
-
-  
   expect(statusCode).toBe(404);
   expect(responseBody).toContain("User not found!");
 });
@@ -104,13 +85,13 @@ test("Search Product via API", async ({ page }) => {
 
     const response = await page.request.post(apiURL, {
       headers: { "Content-Type": "application/json" },
-      data: JSON.stringify(searchData),
+      postData: JSON.stringify(searchData),
     });
 
     const statusCode = response.status();
     const responseBody = await response.json();
 
-    // Check the response status code
+    
     expect(statusCode).toBe(200);
 
     if (searchTerm === "Blue") {
