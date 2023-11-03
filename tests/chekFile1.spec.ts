@@ -4,7 +4,7 @@ test("Create/Register User Account via API", async ({ page }) => {
     const apiURL = "https://automationexercise.com/api/createAccount";
     const userData = {
       name: "Paw",
-      email: "eee@example.com",
+      email: "eEEEee@example.com",
       password: "P123",
       title: "Mr",
       birth_date: "01",
@@ -23,15 +23,15 @@ test("Create/Register User Account via API", async ({ page }) => {
     };
   
     const response = await page.request.post(apiURL, {
-      headers: { "Content-Type": "application/json" },
-      data: JSON.stringify(userData),
+      data: userData,
     });
   
-    const statusCode = response.status();
-    const responseBody = await response.text();
+    const body = await response.json();
+
+    console.log(body);
   
-    expect(statusCode).toBe(400);
-    expect(responseBody).toContain("Account created!");
+    expect(body.responseCode).toBe(200);
+    expect(body.message).toContain("Account created!");
   });
   
   test("Verify Login with Valid Details via API", async ({ page }) => {

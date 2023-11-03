@@ -10,10 +10,9 @@ import * as fs from "fs";
 //     await expect(page).toHaveTitle(/Automation/);
 //   });
 
-  test.beforeEach(async ({ page }) => {
-     await page.goto('https://www.automationexercise.com');
-
-  });
+test.beforeEach(async ({ page }) => {
+  await page.goto("https://www.automationexercise.com");
+});
 
 //   test('get started link', async ({ page }) => {
 //     await page.goto('https://www.automationexercise.com');
@@ -34,8 +33,7 @@ import * as fs from "fs";
 
 //     });
 test("new user sign up ", async ({ page }) => {
-  
- // await page.goto("https://www.automationexercise.com");
+  // await page.goto("https://www.automationexercise.com");
   await page.getByRole("link", { name: "Signup / Login" }).click();
   await expect(page.getByText("New User Signup!")).toBeVisible();
 
@@ -63,7 +61,7 @@ test("new user sign up ", async ({ page }) => {
   await emailSignup.fill("eee@mail.com");
   await page.getByRole("button", { name: /Signup/i }).click();
 
- // await expect(page).toHaveURL(/.*signup/);
+  // await expect(page).toHaveURL(/.*signup/);
   await expect(page.getByText("ENTER ACCOUNT INFORMATION")).toBeVisible();
 
   // const user = JSON.parse(fs.readFileSync("datatest.json", "utf-8"));
@@ -73,28 +71,28 @@ test("new user sign up ", async ({ page }) => {
   // await page.fill("#password", user.password);
   // await page.getByRole("button", { name: /Create Account/i }).click();
 
-const password = page.getByLabel("Password")
+  const password = page.getByLabel("Password");
   //const password = page.getByPlaceholder("Password");
   await password.fill("123");
   const firstName = page.getByLabel("First Name");
   await firstName.fill("pav");
   const lastName = page.getByLabel("Last Name");
   await lastName.fill("rud");
-  await page.getByLabel('Address * (Street address, P.O. Box, Company name, etc.)').fill("kob 54");
-  await page.getByLabel("Country").selectOption("Canada")
+  await page
+    .getByLabel("Address * (Street address, P.O. Box, Company name, etc.)")
+    .fill("kob 54");
+  await page.getByLabel("Country").selectOption("Canada");
   await page.getByLabel("State").fill("maz");
   await page.getByLabel("City ").fill("waw");
   await page.getByLabel("Zipcode ").fill("12345");
   await page.getByLabel("Mobile Number").fill("123456789");
-  
 
   await page.getByRole("button", { name: /Create Account/i }).click();
   await expect(page.getByText("ACCOUNT CREATED!")).toBeVisible();
 });
 
-
 test("login user negative", async ({ page }) => {
-//  await page.goto("https://www.automationexercise.com");
+  //  await page.goto("https://www.automationexercise.com");
 
   await page.getByRole("link", { name: "Signup / Login" }).click();
 
@@ -110,8 +108,7 @@ test("login user negative", async ({ page }) => {
   await expect(password).toBeEmpty;
   await password.fill("123");
   await page.getByRole("button", { name: /Login/i }).click();
-  //await expect(page).toHaveURL(/.*login/);
-  //await expect(page.getByText("Full-Fledged practice website for Automation Engineers")).toBeVisible();
+  
   await expect(
     page.getByText("Your email or password is incorrect!")
   ).toBeVisible();
@@ -160,12 +157,12 @@ test("add to card ", async ({ page }) => {
   //   document.body.remove();
   // });
 
-  // await page.evaluate(() => {
-  //   const elementToRemove = document.getElementById("ad_position_box");
-  //   if (elementToRemove) {
-  //     elementToRemove.remove();
-  //   }
-  // });
+  await page.evaluate(() => {
+    const elementToRemove = document.querySelector(".adsbygoogle");
+    if (elementToRemove) {
+      elementToRemove.remove();
+    }
+  });
 
   await expect(page.getByText("All product")).toBeVisible();
   const search = page.getByPlaceholder("Search");
@@ -173,6 +170,14 @@ test("add to card ", async ({ page }) => {
   await search.fill("blue");
   // await page.waitForSelector('#submit_search', { visible: true });
   await page.click("#submit_search");
+
+  const addToCartLinks = await page.locator('.productinfo .add-to-cart').all();
+  for (const link of addToCartLinks) {
+    await link.click();
+    await page.getByRole("button", { name: /Continue Shopping/i }).click();
+  }
+
+  await page.getByRole("link", { name: "Cart" }).click();
 });
 
 test("product color is blue ", async ({ page }) => {
